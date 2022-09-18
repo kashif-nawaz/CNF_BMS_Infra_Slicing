@@ -1,9 +1,9 @@
 # CNF Over BMS and Infrastructre Slicing
  * Text book definition for 5G slicing is "5G network slicing is a network architecture that enables the multiplexing of virtualized and independent logical networks on the same physical network infrastructure. Each network slice is an isolated end-to-end network tailored to fulfil diverse requirements requested by a particular application" 
  * I was preoccupied since long that how network slicing can be achieved in NFVI (Network Function Virtulized Infrastrutre).
- - NFVI slicing is easier to achieve once Contrainerized Network Function  PODs are running over the Infrastructure as a Service VMs. 
- - There is strong advocacy from a school of thought that Contrainerized Network Function PODs should run on bare metal servers. So that to performance overhead and  and networking  complexities can be avoided  which are inherited when CNI has to run POD networks inside the IaaS VMs.
- - If CNF Pods have to be run on bare metal server then it means one bare metal server can be the worker node for one K8s cluster which is clearly underutilization of compute resource.
+    - NFVI slicing is easier to achieve once Contrainerized Network Function  PODs are running over the Infrastructure as a Service VMs. 
+    - There is strong advocacy from a school of thought that Contrainerized Network Function PODs should run on bare metal servers. So that to performance overhead and  and networking  complexities can be avoided  which are inherited when CNI has to run POD networks inside the IaaS VMs.
+* If CNF Pods have to be run on bare metal server then it means one bare metal server can be the worker node for one K8s cluster which is clearly underutilization of compute resource.
  * In many cases telco provider wants to share compute resources for multiple applications e.g:-
  - In 5G Core Control plane site compute resources are usually shared.
    - Policy Contol Function  
@@ -14,23 +14,23 @@
    - IMS transport and bearer services (user plane)
    - DNS services 
  * Somehow there should be that CNF Pods should get performance as it is running on bare metal servers, but compute resources should not be underutilised by running Pods by utilising the bare metal as  worker node of the single K8s cluster.
- - Above implies that we need slicing of compute resources while still offering bare metal performance to CNF Pods.  
+    - Above implies that we need slicing of compute resources while still offering bare metal performance to CNF Pods.  
  * This wiki will describe a proposed model which can still offer compute infrastructure slicing with actual performance offered by a bare metal server and also reducing the network complexities.
  ## Proposed Model with Hardware Pass-through from Bare Metal to the VMs
  ![cnf_bms_infra_slicing](./images/cnf_bms_infra_slicing.jpg)
  * Slice your bare metal server (get requirements for VM/ VMs CPU, Memory and required NICs).
-- Define the VM / VMs on your bare metal server (without running the VM).
-- Define number of CPUs, map the vCPUs to Host (bare metal) CPUs.
-- While defining the vCPUs, use the  "host-pass-through" CPU model".
-- Add vCPUs for Emulator threads and IOThreads. 
-- Identitfy the NICs (PCI) on bare metal servers which should be passthrough to VMs.
-- Detach the NIC (PCI) from the Host (bare metal) and attach it to the Guest VMs. 
-- Isolate the CPUs Cores allocated to VMs, IOThreads and Emulator Threads from the Host (bare metal) OS.
-- This model will ensure that  Barmetal performance can be achieved for CNF PODS running inside the VMs and network complexities are also reduced.
+    - Define the VM / VMs on your bare metal server (without running the VM).
+    - Define number of CPUs, map the vCPUs to Host (bare metal) CPUs.
+    - While defining the vCPUs, use the  "host-pass-through" CPU model".
+    - Add vCPUs for Emulator threads and IOThreads. 
+    - Identitfy the NICs (PCI) on bare metal servers which should be passthrough to VMs.
+    - Detach the NIC (PCI) from the Host (bare metal) and attach it to the Guest VMs. 
+    - Isolate the CPUs Cores allocated to VMs, IOThreads and Emulator Threads from the Host (bare metal) OS.
+    - This model will ensure that  Barmetal performance can be achieved for CNF PODS running inside the VMs and network complexities are also reduced.
 ## Implmentation Details 
 * Most of above described requirements can be achieved via IaaS (Open stack, but I will not discuss that).
 * I will discuss implementation details for Host OS (Ubunut 18.04) and Guest VMs Running (Centos 18.06).
-- Identify the NUMA Archticture 
+    - Identify the NUMA Archticture 
 ```
 server1:~$ lscpu
 Architecture:        x86_64
@@ -74,7 +74,7 @@ server1:~$ sudo cat $(find /sys/devices/system/cpu -regex ".*cpu[0-9]+/topology/
 11,23
 ```
 * I have 2 socket machine each with 6 physical cores and enabling hyperthreading gave me 12 cores on each socket, but each CPU sibling will be dedicated to the purpose for which main core will be used.  
-- Host OS CPU Cores
+    - Host OS CPU Cores
 ```
 0,12
 1,13
@@ -200,7 +200,7 @@ pci@0000:08:00.1  eno4        network        I350 Gigabit Network Connection
                   virbr0-nic  network        Ethernet interface
 ```
 * Create Guest VMs Defination Files 
-- Red_k8s_cluster_worker1 VM
+ - Red_k8s_cluster_worker1 VM
 ```
 node_name=Red_k8s_cluster_worker1
 export LIBGUESTFS_BACKEND=direct
