@@ -16,7 +16,7 @@
  - Above implies that we need slicing of compute resources while still offering bare metal performance to CNF Pods.  
  * This wiki will describe a proposed model which can still offer compute infrastructure slicing with actual performance offered by a bare metal server and also reducing the network complexities.
  ## Proposed Model with Hardware Pass-through from Bare Metal to the VMs
- ![cnf_bms_infra_slicing](./images/cnf_bms_infra_slicing)
+ ![cnf_bms_infra_slicing](./images/cnf_bms_infra_slicing.jpg)
  * Slice your bare metal server (get requirements for VM/ VMs CPU, Memory and required NICs).
 - Define the VM / VMs on your bare metal server (without running the VM).
 - Define number of CPUs, map the vCPUs to Host (bare metal) CPUs.
@@ -27,9 +27,9 @@
 - Isolate the CPUs Cores allocated to VMs, IOThreads and Emulator Threads from the Host (bare metal) OS.
 - This model will ensure that  Barmetal performance can be achieved for CNF PODS running inside the VMs and network complexities are also reduced.
 ## Implmentation Details 
-* Most of above desribed requirments can be achived via IaaS (Openstack, but I will not disucss that )
-* I will discuss implmentation details for Host OS (Ubunut 18.04) and Guest VMs Running (Centos 18.06)
-* Identify the NUMA archticture 
+* Most of above described requirements can be achieved via IaaS (Open stack, but I will not discuss that).
+* I will discuss implementation details for Host OS (Ubunut 18.04) and Guest VMs Running (Centos 18.06).
+- Identify the NUMA Archticture 
 ```
 server1:~$ lscpu
 Architecture:        x86_64
@@ -72,31 +72,32 @@ server1:~$ sudo cat $(find /sys/devices/system/cpu -regex ".*cpu[0-9]+/topology/
 10,22
 11,23
 ```
-*  I have 2 socket machine each with 6 physical cores and enabling hyperthreading gave me 12 cores on each socket, but each CPU sibling will be dedicated to the purpose for which main core will be used.  
-- Host OS
+* I have 2 socket machine each with 6 physical cores and enabling hyperthreading gave me 12 cores on each socket, but each CPU sibling will be dedicated to the purpose for which main core will be used.  
+- Host OS CPU Cores
 ```
 0,12
 1,13
 ```
-- Guest VM1
+- Guest VM - Red_k8s_cluster_worker1
 ```
-2,14 (Emultaor threads and IOThreads)
+2,14 Phyical CPUs mapped to Emultaor threads and IOThreads
 
-4,16 mapped to Guest VM vCPUs
+4,16 Physical CPUs Mapped to Guest VM vCPUs
 6,18
 8,20
 10,22
 ```
-- Guest VM2
+- Guest VM - Red_k8s_cluster_worker1
 ```
-3,15 (Emultaor threads and IOThreads)
-5,17 Mapped to Guest VM vCPUs
+3,15 Phyical CPUs mapped to Emultaor threads and IOThreads
+
+5,17 Physical CPUs Mapped to Guest VM vCPUs
 7,19
 9,21
 11,23
 ```
 * Isolate the CPUs so that host OS shcduler should not use CPUs dedciated for Guest VMs, Emulator Threads and Guest IOThread.
-* Enable pci-passthrough as well in Host OS Grub config
+* Enable pci-pass-through as well in Host OS Grub config.
 
 ```
 GRUB_CMDLINE_LINUX="intel_iommu=on isolcpus=2-11,14-23"
@@ -113,7 +114,7 @@ root@server1:/tmp# dmesg | grep IOMMU
 [    0.000000] DMAR-IR: IOAPIC id 0 under DRHD base  0xdc100000 IOMMU 1
 [    0.000000] DMAR-IR: IOAPIC id 1 under DRHD base  0xdc100000 IOMMU 1
 ```
-* Identify the NICs which will be passed through to the Guest VMs
+* Identify the NICs which will be passed through to the Guest VMs.
 
 ```
 sudo lshw -c network -businfo
@@ -182,7 +183,7 @@ virsh nodedev-dumpxml pci_0000_01_00_1
   </capability>
 </device>
 ```
-* Detach the PCI Devices from Host OS (Bare Metal Server)
+* Detach the selected PCI Devices from Host OS (Bare Metal Server)
 
 ```
 virsh nodedev-detach pci_0000_01_00_0
@@ -198,7 +199,7 @@ pci@0000:08:00.1  eno4        network        I350 Gigabit Network Connection
                   virbr0-nic  network        Ethernet interface
 ```
 * Create Guest VMs Defination Files 
-
+- Red_k8s_cluster_worker1 VM
 ```
 node_name=Red_k8s_cluster_worker1
 export LIBGUESTFS_BACKEND=direct
@@ -225,8 +226,9 @@ virt-install --name ${node_name} \
   --host-device=pci_0000_01_00_0 \
   --console pty,target_type=serial \
   --dry-run --print-xml > /tmp/${node_name}.xml
-
-
+```
+- Blue_k8s_cluster_worker1 VM
+```
 node_name=Blue_k8s_cluster_worker1
 export LIBGUESTFS_BACKEND=direct
 root_password=root-password
@@ -239,8 +241,6 @@ virt-resize --expand /dev/sda1 ${cloud_image} /var/lib/libvirt/images/${node_nam
 
 virt-customize  -a /var/lib/libvirt/images/${node_name}.qcow2   --run-command 'xfs_growfs /'  --root-password password:${root_password}   --hostname ${node_name}.${nodesuffix}   --run-command 'useradd someuser'   --password someuser:password:${someuser_password}   --run-command 'echo "someuser ALL=(root) NOPASSWD:ALL" | tee -a /etc/sudoers.d/someuser'   --chmod 0440:/etc/sudoers.d/someuser   --run-command 'sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config'   --run-command 'systemctl enable sshd'   --run-command 'yum remove -y cloud-init'   --selinux-relabel
 
-
-
 virt-install --name ${node_name} \
   --virt-type kvm --memory 8192  --vcpus 8 \
   --boot hd,menu=on \
@@ -252,12 +252,13 @@ virt-install --name ${node_name} \
   --host-device=pci_0000_01_00_1 \
   --console pty,target_type=serial \
   --dry-run --print-xml > /tmp/${node_name}.xml
-
 ```
 
 * Edit the Guest VM Defination Files  
 - Repeat it for both/ all of the guest VMs 
-- vim /tmp/Red_k8s_cluster_worker1.xml
+```
+vim /tmp/Red_k8s_cluster_worker1.xml
+```
 - Remove Following line 
 ```
 <vcpu>8</vcpu>
@@ -310,8 +311,9 @@ virsh define /tmp/Blue_k8s_cluster_worker1.xml
 virsh start Red_k8s_cluster_worker1
 virsh start Blue_k8s_cluster_worker1
 ```
-* Verify the Network Connectivty from Guest VMs
-- Underlay_Fabric_Switch ports must be configured with correct VLAN on interfaces conected with (bare metal NICs which are  passed through to Guest VMs)
+## Verfication
+* Verify the Network Connectivty between Guest VMs and Underlay_Fabric_Switch.
+- Underlay_Fabric_Switch ports must be configured with correct VLAN on interfaces connected with (bare metal NICs which are  passed through to the Guest VMs).
 - Once correct config will be applied on Guest VM NICs then connectivty towards fabric and other VMs on same subnet should be established.
 ```
  fabric-switch> show ethernet-switching table | match bc:30:5b:f2:87:52
@@ -341,7 +343,7 @@ Blue_k8s_cluster_worker1 VM
 9,21
 11,23
 ```
-* Output Collected from Host OS 
+* Output Collected from the Host OS 
 ```
 server1:/tmp# virsh vcpuinfo Red_k8s_cluster_worker1
 VCPU:           0
@@ -455,3 +457,17 @@ emulator: CPU Affinity
 ----------------------------------
        *: 3,15
 ```
+
+## Seprate Network for Control and Data Plane
+![cnf_bms_infra_slicing_multi_nics](./images/ cnf_bms_infra_slicing_multi_nics.jpg)
+* In above discussion I have used single network inside K8s worker nodes for Red and Blue cluster.
+* If multiple network interfaces are required for each worker node for K8s cluster, then extend it to the Guest VMs accordingly.
+
+## Sriov Vs PCI-Passthrough
+* SRIOV VFs can  be passed to the Guest VFs instead of PCI Passthrough.
+* Upside for using SRIOV VFs is that with fewer physical NICs we can provide direct connetvity to the Guest VM (by passing the virtio drivers).
+* Downside of SRIOV VFs is that some of the physical network functionality may not be available over the VFs (e.g. LACP or 802.3 ad bond can't be configured over SRIOV VFs).
+* Upside of of PCI pass-through is that full network functionality would be available to Guest VMs NICs (e.g LACP or 802.3ad can be conigured over PCI pass through NICs).
+* Downside of PIC pass-through is extra cost for having seprate PCI pass-through NICs for each NUMA node which could sufffice the Guest VM requirments. 
+# Conclusion
+* No approach can be considred as final approach in  ever evolving fields IT and Telecom 
