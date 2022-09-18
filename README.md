@@ -2,7 +2,7 @@
  * Text book definition for 5G slicing is that "5G network slicing is a network architecture that enables the multiplexing of virtualized and independent logical networks on the same physical network infrastructure. Each network slice is an isolated end-to-end network tailored to fulfil diverse requirements requested by a particular application" 
  * I was preoccupied since long that how network slicing can be achieved in NFVI (Network Function Virtulized Infrastrutre).
     - NFVI slicing is easier to achieve once Contrainerized Network Function  PODs are running over the Infrastructure as a Service VMs. 
-    - There is strong advocacy from a school of thought that Contrainerized Network Function PODs should run on bare metal servers. So that to performance overhead and  and networking  complexities can be avoided  which are inherited when CNI has to run POD networks inside the IaaS VMs.
+    - There is strong advocacy from a school of thought that Contrainerized Network Function PODs should run on bare metal servers. So that  performance overhead and networking  complexities can be avoided  which are inherited when CNI has to run POD networks inside the IaaS VMs.
 * If CNF Pods have to be run on bare metal server then it means one bare metal server can be the worker node for one K8s cluster which is clearly underutilization of compute resource.
  * In many cases telco provider wants to share compute resources for multiple applications e.g:-
  - In 5G Core Control plane site compute resources are usually shared.
@@ -13,7 +13,7 @@
    - Packet Core Gateway  
    - IMS transport and bearer services (user plane)
    - DNS services 
- * Somehow there should be a way that CNF Pods should get performance as those are running on bare metal servers, but compute resources should not be underutilised by running Pods by utilising the bare metal as  worker node of the single K8s cluster.
+ * Somehow there should be a way that CNF Pods should get performance as those are running over bare metal servers, but compute resources should not be underutilised by utilising the bare metal as  worker node of single K8s cluster.
     - Above implies that we need slicing of compute resources while still offering bare metal performance to CNF Pods.  
  * This wiki will describe a proposed model which can still offer compute infrastructure slicing with actual performance offered by a bare metal server and also reducing the network complexities.
  ## Proposed Model with Hardware Pass-through from Bare Metal to the VMs
