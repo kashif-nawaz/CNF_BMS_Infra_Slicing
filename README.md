@@ -1,4 +1,4 @@
-# CNF Over BMS and Infrastructre Slicing
+# CNF Over BMS and Infrastructure Slicing
  * Text book definition for 5G slicing is that "5G network slicing is a network architecture that enables the multiplexing of virtualized and independent logical networks on the same physical network infrastructure. Each network slice is an isolated end-to-end network tailored to fulfil diverse requirements requested by a particular application" 
  * I was preoccupied since long that how network slicing can be achieved in NFVI (Network Function Virtulized Infrastrutre).
     - NFVI slicing is easier to achieve once Contrainerized Network Function  PODs are running over the Infrastructure as a Service VMs. 
