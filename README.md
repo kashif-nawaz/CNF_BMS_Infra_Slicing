@@ -4,13 +4,13 @@
     - NFVI slicing is easier to achieve once Contrainerized Network Function  PODs are running over the Infrastructure as a Service VMs. 
     - There is strong advocacy from a school of thought that Contrainerized Network Function PODs should run on bare metal servers. So that  performance overhead and networking  complexities can be avoided  which are inherited when CNI has to run POD networks inside the IaaS VMs.
 * If CNF Pods have to be run on bare metal server then it means one bare metal server can be the worker node for one K8s cluster which is clearly underutilization of compute resource.
- * In many cases telco provider wants to share compute resources for multiple applications e.g:-
- - In 5G Core Control plane sites; compute resources are usually shared.
+ * Usually; telco provider like to share compute resources for multiple applications to avoid under utilization of resources:-
+ * In 5G Core Control plane sites; compute resources are usually shared to run following applications.
    - Policy Contol Function  
    - Packet Core Controller
    - IMS control plane components 
- * In 5G Core user plane sites; compute resources are usually shared 
-   - Packet Core Gateway  
+ * In 5G Core user plane sites; compute resources are usually shared to run following applications. 
+   - Packet Core Gateway (5G Core User plane)
    - IMS transport and bearer services (user plane)
    - DNS services 
  * Somehow there should be a way that CNF Pods should get performance as those are running over bare metal servers, but compute resources should not be underutilised by utilising the bare metal as  worker node of single K8s cluster.
@@ -26,7 +26,7 @@
     - Identitfy the NICs (PCI) on bare metal servers which should be passthrough to VMs.
     - Detach the NIC (PCI) from the Host (bare metal) and attach it to the Guest VMs. 
     - Isolate the CPUs Cores allocated to VMs, IOThreads and Emulator Threads from the Host (bare metal) OS.
-    - This model will ensure that  Barmetal performance can be achieved for CNF PODS running inside the VMs and network complexities are also reduced.
+    - This model will ensure that  bare metal performance can be achieved for CNF PODS running inside the VMs and network complexities are also reduced.
 ## Implmentation Details 
 * Most of above described requirements can be achieved via IaaS (Open stack, but I will not discuss that).
 * I will discuss implementation details for Host OS (Ubunut 18.04) and Guest VMs Running (Centos 18.06).
