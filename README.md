@@ -260,11 +260,11 @@ virt-install --name ${node_name} \
 ```
 vim /tmp/Red_k8s_cluster_worker1.xml
 ```
-- Remove Following line 
+- Remove following line 
 ```
 <vcpu>8</vcpu>
 ```
-- Add Following line 
+- Add following line 
 ``` 
  <vcpu placement='static'>8</vcpu>
 ```
@@ -284,7 +284,7 @@ vim /tmp/Red_k8s_cluster_worker1.xml
     <iothreadpin iothread='1' cpuset='2,14'/>
  </cputune>
 ```
-- Remove Following lines
+- Remove following lines
 ```
   <interface type="network">
       <source network="default"/>
@@ -292,7 +292,7 @@ vim /tmp/Red_k8s_cluster_worker1.xml
       <model type="virtio"/>
   </interface>
 ```
-- Ensure network devices is added as PCI-Pass Through
+- Ensure network devices is added as PCI-Pass-through
 ```
 <hostdev mode="subsystem" type="pci" managed="yes">
       <source>
@@ -462,7 +462,7 @@ emulator: CPU Affinity
 ## Seprate Network for Control and Data Plane
 ![cnf_bms_infra_slicing_multi_nics](./images/cnf_bms_infra_slicing_multi_nics.jpg)
 * In above discussion I have used single network inside K8s worker nodes for Red and Blue cluster.
-* If multiple network interfaces are required for each worker node for K8s cluster, then extend it to the Guest VMs accordingly.
+* If multiple network interfaces are required for each worker node for each K8s cluster, then extend it to the Guest VMs accordingly.
 
 ## Sriov Vs PCI-Passthrough
 * SRIOV VFs can  be passed to the Guest VFs instead of PCI Passthrough.
