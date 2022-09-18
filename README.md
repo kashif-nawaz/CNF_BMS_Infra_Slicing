@@ -1,8 +1,9 @@
 # CNF Over BMS and Infrastructre Slicing
  * Text book definition for 5G slicing is "5G network slicing is a network architecture that enables the multiplexing of virtualized and independent logical networks on the same physical network infrastructure. Each network slice is an isolated end-to-end network tailored to fulfil diverse requirements requested by a particular application" 
- * Infrastrcutre slicing is easier to achieve once Contrainerized Network Function  PODs are running over the Infrastructure as a Service VMs. 
- * There is strong advocacy from a school of thought that Contrainerized Network Function PODs should run on bare metal servers. So that to performance overhead and  and networking  complexities can be avoided  which are inherited when CNI has to run POD networks inside the IaaS VMs.
- * If CNF Pods have to be run on bare metal server then it means one bare metal server can be the worker node for one K8s cluster which is clearly underutilization of compute resource.
+ * I was preoccupied since long that how network slicing can be achieved in NFVI (Network Function Virtulized Infrastrutre).
+ - NFVI slicing is easier to achieve once Contrainerized Network Function  PODs are running over the Infrastructure as a Service VMs. 
+ - There is strong advocacy from a school of thought that Contrainerized Network Function PODs should run on bare metal servers. So that to performance overhead and  and networking  complexities can be avoided  which are inherited when CNI has to run POD networks inside the IaaS VMs.
+ - If CNF Pods have to be run on bare metal server then it means one bare metal server can be the worker node for one K8s cluster which is clearly underutilization of compute resource.
  * In many cases telco provider wants to share compute resources for multiple applications e.g:-
  - In 5G Core Control plane site compute resources are usually shared.
    - Policy Contol Function  
