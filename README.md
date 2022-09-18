@@ -5,11 +5,11 @@
     - There is strong advocacy from a school of thought that Contrainerized Network Function PODs should run on bare metal servers. So that  performance overhead and networking  complexities can be avoided  which are inherited when CNI has to run POD networks inside the IaaS VMs.
 * If CNF Pods have to be run on bare metal server then it means one bare metal server can be the worker node for one K8s cluster which is clearly underutilization of compute resource.
  * In many cases telco provider wants to share compute resources for multiple applications e.g:-
- - In 5G Core Control plane site compute resources are usually shared.
+ - In 5G Core Control plane sites; compute resources are usually shared.
    - Policy Contol Function  
    - Packet Core Controller
    - IMS control plane components 
- * In 5G Core Control plane site compute resources are usually shared 
+ * In 5G Core user plane sites; compute resources are usually shared 
    - Packet Core Gateway  
    - IMS transport and bearer services (user plane)
    - DNS services 
