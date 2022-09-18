@@ -15,7 +15,7 @@
    - DNS services 
  * Somehow there should be a way that CNF Pods should get performance as those are running over bare metal servers, but compute resources should not be underutilised by utilising the bare metal as  worker node of single K8s cluster.
     - Above implies that we need slicing of compute resources while still offering bare metal performance to CNF Pods.  
- * This wiki will describe a proposed model which can still offer compute infrastructure slicing with actual performance offered by a bare metal server and also reducing the network complexities.
+ * This wiki will describe a proposed model which can  offer compute infrastructure slicing while maintaining performance level offered by a bare metal server and also reducing the network complexities.
  ## Proposed Model with Hardware Pass-through from Bare Metal to the VMs
  ![cnf_bms_infra_slicing](./images/cnf_bms_infra_slicing.jpg)
  * Slice your bare metal server (get requirements for VM/ VMs CPU, Memory and required NICs).
