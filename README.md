@@ -74,7 +74,7 @@ server1:~$ sudo cat $(find /sys/devices/system/cpu -regex ".*cpu[0-9]+/topology/
 11,23
 ```
 * I have 2 socket machine each with 6 physical cores and enabling hyperthreading gave me 12 cores on each socket, but each CPU sibling will be dedicated to the purpose for which main core will be used.  
-    - Host OS CPU Cores
+- Host OS CPU Cores
 ```
 0,12
 1,13
@@ -466,9 +466,9 @@ emulator: CPU Affinity
 
 ## Sriov Vs PCI-Passthrough
 * SRIOV VFs can  be passed to the Guest VFs instead of PCI Passthrough.
-* Upside for using SRIOV VFs is that with fewer physical NICs we can provide direct connetvity to the Guest VM (by passing the virtio drivers).
+* Upside for using SRIOV VFs is that with fewer physical NICs we can provide direct connetvity to the Guest VM (avoiding virtio drivers).
 * Downside of SRIOV VFs is that some of the physical network functionality may not be available over the VFs (e.g. LACP or 802.3 ad bond can't be configured over SRIOV VFs).
 * Upside of of PCI pass-through is that full network functionality would be available to Guest VMs NICs (e.g LACP or 802.3ad can be conigured over PCI pass through NICs).
 * Downside of PIC pass-through is extra cost for having seprate PCI pass-through NICs for each NUMA node which could sufffice the Guest VM requirments. 
 # Conclusion
-* No approach can be considred as final approach in  ever evolving fields IT and Telecom 
+* No approach can be considred as final in  ever evolving fields  of IT and Telecom 
