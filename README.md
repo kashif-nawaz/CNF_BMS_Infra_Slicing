@@ -459,7 +459,7 @@ emulator: CPU Affinity
 ```
 
 ## Seprate Network for Control and Data Plane
-![cnf_bms_infra_slicing_multi_nics](./images/ cnf_bms_infra_slicing_multi_nics.jpg)
+![cnf_bms_infra_slicing_multi_nics](./images/cnf_bms_infra_slicing_multi_nics.jpg)
 * In above discussion I have used single network inside K8s worker nodes for Red and Blue cluster.
 * If multiple network interfaces are required for each worker node for K8s cluster, then extend it to the Guest VMs accordingly.
 
