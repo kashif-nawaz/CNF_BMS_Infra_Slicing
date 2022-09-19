@@ -98,7 +98,7 @@ server1:~$ sudo cat $(find /sys/devices/system/cpu -regex ".*cpu[0-9]+/topology/
 11,23
 ```
 * Isolate the CPUs so that host OS shcduler should not use CPUs dedciated for Guest VMs, Emulator Threads and Guest IOThread.
-* Enable pci-pass-through as well in Host OS Grub config.
+* Enable pci-pass-through and CPU Isolation in Grub config.
 
 ```
 GRUB_CMDLINE_LINUX="intel_iommu=on isolcpus=2-11,14-23"
@@ -471,7 +471,7 @@ emulator: CPU Affinity
 * Upside of of PCI pass-through is that full network functionality would be available to Guest VMs NICs (e.g LACP or 802.3ad can be conigured over PCI pass through NICs).
 * Downside of PIC pass-through is extra cost for having seprate PCI pass-through NICs for each NUMA node which could sufffice the Guest VM requirments. 
 ## Next Step
-* I will scale up this infrastrcure to 4 bare metal servers (1 Control host and 3 Worker nodes) to run 2 K8s clusters (Red and Blue)  while running Juniper Networks Cloud Native CN2 as CNI for those K8s Clusters.
+* I will scale up this infrastrcure to 4 bare metal servers (1 Control host and 3 Worker nodes) to run 2 K8s clusters (Red and Blue)  while running Juniper Networks Cloud Native CN2 as CNI those K8s Clusters.
 ## Conclusion
 * We can run multiple k8s cluster in same infrastruture and Guest VMs (k8s worker nodes) will get bare metal like peformance because of following factors:-
   - Avoiding the virtio drivers and Qemu Emulation for CPUs (because of Hostpass-through CPU model) and NIC cards (because of PCI pass-through).
