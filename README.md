@@ -101,6 +101,7 @@ server1:~$ sudo cat $(find /sys/devices/system/cpu -regex ".*cpu[0-9]+/topology/
 * Enable pci-pass-through and CPU Isolation in Grub config.
 
 ```
+vim /etc/default/grub
 GRUB_CMDLINE_LINUX="intel_iommu=on isolcpus=2-11,14-23"
 update-grub
 shutdown -r now 
