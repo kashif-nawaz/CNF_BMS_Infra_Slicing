@@ -473,7 +473,8 @@ emulator: CPU Affinity
 ## Next Step
 * I will scale up this infrastrcure to have 3 bare metal servers to run 2 K8s clusters over it with Juniper Networks Cloud Native CN2 as CNI for K8s Clusters.
 ## Conclusion
-* Avoiding the virtio drivers and Qemu Emulation for CPUs (because of Hostpass-through CPU model) and NIC cards (because of PCI pass-through).
-* Having dedicated IOthread cores will offer speedy read/write operations to the disk.
-* Dedicated emulator threads will ensure that all qemu related tasks for guest VMs will be handled by those dedicated cores. 
-* Isolating CPU Cores dedicated for Guest VMs, IOThreads and  Emulator threads from Host OS CPU cores will ensure that the Host OS scheduler is not overlapping with Guest VMs resources.  
+* We can run multiple k8s cluster in same infrastruture and Guest VMs (k8s worker nodes) will get bare metal like peformance because of following factors:-
+  - Avoiding the virtio drivers and Qemu Emulation for CPUs (because of Hostpass-through CPU model) and NIC cards (because of PCI pass-through).
+  - Having dedicated IOthread cores will offer speedy read/write operations to the disk.
+  - Dedicated emulator threads will ensure that all qemu related tasks for guest VMs will be handled by those dedicated cores. 
+  - Isolating CPU Cores dedicated for Guest VMs, IOThreads and  Emulator threads from Host OS CPU cores will ensure that the Host OS scheduler is not overlapping with Guest VMs resources.  
