@@ -470,7 +470,7 @@ emulator: CPU Affinity
 * Downside of SRIOV VFs is that some of the physical network functionality may not be available over the VFs (e.g. LACP or 802.3 ad bond can't be configured over SRIOV VFs).
 * Upside of of PCI pass-through is that full network functionality would be available to Guest VMs NICs (e.g LACP or 802.3ad can be conigured over PCI pass through NICs).
 * Downside of PIC pass-through is extra cost for having seprate PCI pass-through NICs for each NUMA node which could sufffice the Guest VM requirments. 
-# Next Step
+## Next Step
 * I will scale up this infrastrcure to have 3 bare metal servers to run 2 K8s clusters over it with Juniper Networks Cloud Native CN2 as CNI for K8s Clusters.
-# Conclusion
+## Conclusion
 * No approach can be considred as final in  ever evolving fields  of IT and Telecom 
