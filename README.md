@@ -1,10 +1,16 @@
 # CNF Over BMS and Infrastructure Slicing
  * Text book definition for 5G slicing is that "5G network slicing is a network architecture that enables the multiplexing of virtualized and independent logical networks on the same physical network infrastructure. Each network slice is an isolated end-to-end network tailored to fulfil diverse requirements requested by a particular application" 
- * I was preoccupied since long that how network slicing can be achieved in NFVI (Network Function Virtulization Infrastrutre).
+ ## Problem Statment 
+ * How network slicing can be achieved in NFVI (Network Function Virtulization Infrastrutre).
     - NFVI slicing is easier to achieve once Contrainerized Network Function  PODs are running over the Infrastructure as a Service VMs. 
-    - There is strong advocacy from a school of thought that Contrainerized Network Function PODs should run on bare metal servers. So that  performance overhead and networking  complexities can be avoided  which are inherited when CNI has to run POD networks inside the IaaS VMs.
+    - There is strong advocacy from a school of thought that Contrainerized Network Function PODs should run on bare metal servers. 
+    - Running CNF PODs over BMS can solve issues related to performance overhead  and networking  complexities can be avoided  which are inherited when CNI has to run POD networks inside the IaaS VMs.
 * If CNF Pods have to be run on bare metal server then it means one bare metal server can be the worker node for one K8s cluster which is clearly underutilization of compute resource.
- * Usually; telco provider like to share compute resources for multiple applications to avoid under utilization of resources:-
+## Use cases for Running CNF over BMS
+ * In 5G Cloud-RAN DU (distribuation unit) is deployed near to RU (Radio Unit) as low latency is required for DU. 
+   - Cloud-native DU workloads requires low latencey thus requires BMS based K8s deployment.
+   - Using a BMS; only to host single k8s node is clearly  under-utilization of compute resources
+ * In 5G Cloud-RAN CU (Central unit) is deployed far away from Radio Unit (RU) can bare some latency, but it is still desirable to keep the latency to minimum effect. 
  * In 5G Core Control plane sites; compute resources are usually shared to run following applications.
    - Policy Contol Function  
    - Packet Core Controller
@@ -12,12 +18,13 @@
  * In 5G Core user plane sites; compute resources are usually shared to run following applications. 
    - Packet Core Gateway (5G Core User plane)
    - IMS transport and bearer services (user plane)
-   - DNS services 
- * Somehow there should be a way that CNF Pods should get performance as those are running over bare metal servers, but compute resources should not be underutilised by utilising the bare metal as  worker node of single K8s cluster.
+   - DNS services  
+ * All of above  described use cases requires that CNF Pods should get performance as those are running over bare metal servers, but compute resources should not be underutilised by utilising the bare metal as single K8s worker node.
     - Above implies that we need slicing of compute resources while still offering bare metal performance to CNF Pods.  
  * This wiki will describe a proposed model which can  offer compute infrastructure slicing while maintaining performance level offered by a bare metal server and also reducing the network complexities.
  ## Proposed Model with Hardware Pass-through from Bare Metal to the VMs
  ![cnf_bms_infra_slicing](./images/cnf_bms_infra_slicing.jpg)
+ *  BMS slicing means avoiding  Qemu emulation of CPUs for Guest VMs (k8s worker nodes) and extending network devices either as PCI-Passthrough or SRIOV VF.
  * Slice your bare metal server (get requirements for VM/ VMs CPU, Memory and required NICs).
     - Define the VM / VMs on your bare metal server (without running the VM).
     - Define number of CPUs, map the vCPUs to Host (bare metal) CPUs.
