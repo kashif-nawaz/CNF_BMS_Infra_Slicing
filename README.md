@@ -5,7 +5,7 @@
     - NFVI slicing is easier to achieve once Contrainerized Network Function  PODs are running over the Infrastructure as a Service VMs. 
     - There is strong advocacy from a school of thought that Contrainerized Network Function PODs should run on bare metal servers. 
     - Running CNF PODs over BMS can solve issues related to performance overhead  and networking  complexities can be avoided  which are inherited when CNI has to run POD networks inside the IaaS VMs.
-* If CNF Pods have to be run on bare metal server then it means one bare metal server can be the worker node for one K8s cluster which is clearly underutilization of compute resource.
+* If CNF Pods have to be run on bare metal server then it means one bare metal will be used as single k8s worker node which is clearly underutilization of compute resource.
 ## Use cases for Running CNF over BMS
  * In 5G Cloud-RAN DU (distribuation unit) is deployed near to RU (Radio Unit) as low latency is required for DU. 
    - Cloud-native DU workloads requires low latencey thus requires BMS based K8s deployment.
@@ -19,12 +19,16 @@
    - Packet Core Gateway (5G Core User plane)
    - IMS transport and bearer services (user plane)
    - DNS services  
- * All of above  described use cases requires that CNF Pods should get performance as those are running over bare metal servers, but compute resources should not be underutilised by utilising the bare metal as single K8s worker node.
+ * All of above  described use cases requires that CNF Pods should get performance as those are running over bare metal servers, but compute resources should not be underutilised by utilising the bare metal as single K8s worker node  .
     - Above implies that we need slicing of compute resources while still offering bare metal performance to CNF Pods.  
- * This wiki will describe a proposed model which can  offer compute infrastructure slicing while maintaining performance level offered by a bare metal server and also reducing the network complexities.
- ## Proposed Model with Hardware Pass-through from Bare Metal to the VMs
+  ## Proposed Model - BMS Slicing using Hardware Pass-through technology from Bare Metal to the Guest VMs
+ *  BMS slicing means avoiding  Qemu emulation of CPUs for Guest VMs (k8s worker nodes) and extending network devices either as PCI-Passthrough or SRIOV VF. 
+ *  If k8s is deployed on BMS sliced infrastructure, then following problems would be resolved:-
+    - No more under-utilization of compute infrastrcutre as one BMS is not limited to host one k8s worker node.
+    - Same  level of performance as if k8s worker nodes is deployed over BMS or inside Guest VMs which is sliced from BMS.
+    - No networking complexities, which are inherent if k8s worker nodes have to be deployed over IaaS VMs.
+ * 
  ![cnf_bms_infra_slicing](./images/cnf_bms_infra_slicing.jpg)
- *  BMS slicing means avoiding  Qemu emulation of CPUs for Guest VMs (k8s worker nodes) and extending network devices either as PCI-Passthrough or SRIOV VF.
  * Slice your bare metal server (get requirements for VM/ VMs CPU, Memory and required NICs).
     - Define the VM / VMs on your bare metal server (without running the VM).
     - Define number of CPUs, map the vCPUs to Host (bare metal) CPUs.
