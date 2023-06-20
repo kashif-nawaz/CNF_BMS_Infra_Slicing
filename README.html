@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="containerise-network-function-over-baremetal-servers-and-infrastructure-slicing">Containerise Network Function Over Baremetal Servers and Infrastructure Slicing</h1>
+<ul>
+<li>Text book definition for 5G slicing is that &quot;5G network slicing is a network architecture that enables the multiplexing of virtualized and independent logical networks on the same physical network infrastructure. Each network slice is an isolated end-to-end network tailored to fulfil diverse requirements requested by a particular application&quot;</li>
+</ul>
+<h2 id="problem-statment">Problem Statment</h2>
+<ul>
+<li>How network slicing can be achieved in NFVI (Network Function Virtulization Infrastrutre).
+<ul>
+<li>NFVI slicing is easier to achieve once Containerized Network Function (CNF)  PODs are running over the Infrastructure as a Service vitual machines (VMs).</li>
+<li>There is strong advocacy from a school of thought that CNF PODs should run on bare metal servers (BMS).</li>
+<li>Running CNF PODs over BMS can solve issues related to performance overhead  and networking  complexities can also be avoided  which are inherited when CNI has to run POD networks inside the IaaS VMs.</li>
+</ul>
+</li>
+<li>If CNF Pods have to be run on BMS then it means one BMS will be used as single k8s worker node which is clearly underutilization of compute resource.</li>
+</ul>
+<h2 id="use-cases-for-running-cnf-over-bms">Use cases for Running CNF over BMS</h2>
+<ul>
+<li>In 5G Cloud-RAN DU (distribuation unit) is deployed near to RU (Radio Unit) as low latency is required for DU.
+<ul>
+<li>Cloud-native DU workloads requires low latencey thus requires BMS based K8s deployment.</li>
+<li>Using a BMS; only to host single k8s node is clearly  under-utilization of compute resources.</li>
+</ul>
+</li>
+<li>In 5G Cloud-RAN CU (Central unit) is deployed far away from Radio Unit (RU) abd can bare some latency, but it is still desirable to keep the latency to minimum effect.</li>
+<li>In 5G Core Control plane sites; compute resources are usually shared to run following applications.
+<ul>
+<li>Policy Contol Function</li>
+<li>Packet Core Controller</li>
+<li>IMS control plane components</li>
+</ul>
+</li>
+<li>In 5G Core user plane sites; compute resources are usually shared to run following applications.
+<ul>
+<li>Packet Core Gateway (5G Core User plane)</li>
+<li>IMS transport and bearer services (user plane)</li>
+<li>DNS services</li>
+</ul>
+</li>
+<li>All of above  described use cases requires that CNF Pods should get performance as those are running over BMS, but compute resources should not be underutilised by dedicating the one BMS to a single K8s worker node.
+<ul>
+<li>Above implies that we need slicing of compute resources while still offering bare metal performance to CNF Pods.</li>
+</ul>
+</li>
+</ul>
+<h2 id="proposed-model---bms-slicing-using-hardware-pass-through-technology-from-bare-metal-to-the-guest-vms">Proposed Model - BMS Slicing using Hardware Pass-through technology from Bare Metal to the Guest VMs</h2>
+<ul>
+<li>BMS slicing means avoiding  Qemu emulation of CPUs for Guest VMs (k8s worker nodes) and extending network devices either as PCI-Passthrough or SRIOV VF.</li>
+<li>If k8s is deployed on BMS sliced infrastructure, then following problems would be resolved:-
+<ul>
+<li>No more under-utilization of compute infrastrcutre as one BMS is not limited to host one k8s worker node.</li>
+<li>Same  level of performance as if k8s worker nodes is deployed over BMS or inside Guest VMs which is sliced from BMS.</li>
+<li>No networking complexities, which are inherent if k8s worker nodes have to be deployed over IaaS VMs.</li>
+</ul>
+</li>
+<li></li>
+</ul>
+<p><img src="./images/cnf_bms_infra_slicing.jpg" alt="cnf_bms_infra_slicing"></p>
+<ul>
+<li>Slice your bare metal server (get requirements for VM/ VMs CPU, Memory and required NICs).
+<ul>
+<li>Define the VM / VMs on your bare metal server (without running the VM).</li>
+<li>Define number of CPUs, map the vCPUs to Host (bare metal) CPUs.</li>
+<li>While defining the vCPUs, use the  &quot;host-pass-through&quot; CPU model&quot;.</li>
+<li>Add vCPUs for Emulator threads and IOThreads.</li>
+<li>Identitfy the NICs (PCI) on bare metal servers which should be passthrough to VMs.</li>
+<li>Detach the NIC (PCI) from the Host (bare metal) and attach it to the Guest VMs.</li>
+<li>Isolate the CPUs Cores allocated to VMs, IOThreads and Emulator Threads from the Host (bare metal) OS.</li>
+<li>This model will ensure that  bare metal performance can be achieved for CNF PODS running inside the VMs and network complexities are also reduced.</li>
+</ul>
+</li>
+</ul>
+<h2 id="implmentation-details">Implmentation Details</h2>
+<ul>
+<li>Most of above described requirements can be achieved via IaaS (Open stack, but I will not discuss that).</li>
+<li>I will discuss implementation details for Host OS (Ubunut 18.04) and Guest VMs Running (Centos 18.06).
+<ul>
+<li>Identify the NUMA Archticture</li>
+</ul>
+</li>
+</ul>
+<pre class="hljs"><code><div>server1:~$ lscpu
+Architecture:        x86_64
+CPU op-mode(s):      32-bit, 64-bit
+Byte Order:          Little Endian
+CPU(s):              24
+On-line CPU(s) list: 0-23
+Thread(s) per core:  2
+Core(s) per socket:  6
+Socket(s):           2
+NUMA node(s):        2
+Vendor ID:           GenuineIntel
+CPU family:          6
+Model:               62
+Model name:          Intel(R) Xeon(R) CPU E5-2620 v2 @ 2.10GHz
+Stepping:            4
+CPU MHz:             1200.529
+CPU max MHz:         2600.0000
+CPU min MHz:         1200.0000
+BogoMIPS:            4199.96
+Virtualization:      VT-x
+L1d cache:           32K
+L1i cache:           32K
+L2 cache:            256K
+L3 cache:            15360K
+NUMA node0 CPU(s):   0,2,4,6,8,10,12,14,16,18,20,22
+NUMA node1 CPU(s):   1,3,5,7,9,11,13,15,17,19,21,23
+
+server1:~$ sudo cat $(find /sys/devices/system/cpu -regex &quot;.*cpu[0-9]+/topology/thread_siblings_list&quot;) | sort -n | uniq
+0,12
+1,13
+2,14
+3,15
+4,16
+5,17
+6,18
+7,19
+8,20
+9,21
+10,22
+11,23
+</div></code></pre>
+<ul>
+<li>I have 2 socket machine each with 6 physical cores and enabling hyperthreading gave me 12 cores on each socket, but each CPU sibling will be dedicated to the purpose for which main core will be used.</li>
+</ul>
+<ul>
+<li>Host OS CPU Cores</li>
+</ul>
+<pre class="hljs"><code><div>0,12
+1,13
+</div></code></pre>
+<ul>
+<li>Guest VM - Red_k8s_cluster_worker1</li>
+</ul>
+<pre class="hljs"><code><div>2,14 Phyical CPUs mapped to Emultaor threads and IOThreads
+
+4,16 Physical CPUs Mapped to Guest VM vCPUs
+6,18
+8,20
+10,22
+</div></code></pre>
+<ul>
+<li>Guest VM - Red_k8s_cluster_worker1</li>
+</ul>
+<pre class="hljs"><code><div>3,15 Phyical CPUs mapped to Emultaor threads and IOThreads
+
+5,17 Physical CPUs Mapped to Guest VM vCPUs
+7,19
+9,21
+11,23
+</div></code></pre>
+<ul>
+<li>Isolate the CPUs so that host OS shcduler should not use CPUs dedciated for Guest VMs, Emulator Threads and Guest IOThread.</li>
+<li>Enable pci-pass-through and CPU Isolation in Grub config.</li>
+</ul>
+<pre class="hljs"><code><div>vim /etc/default/grub
+GRUB_CMDLINE_LINUX=&quot;intel_iommu=on isolcpus=2-11,14-23&quot;
+update-grub
+shutdown -r now 
+</div></code></pre>
+<ul>
+<li>Verify if the IOMMU is enabled or not</li>
+</ul>
+<pre class="hljs"><code><div>root@server1:/tmp# dmesg | grep IOMMU
+[    0.000000] DMAR: IOMMU enabled
+[    0.000000] DMAR-IR: IOAPIC id 2 under DRHD base  0xd0100000 IOMMU 0
+[    0.000000] DMAR-IR: IOAPIC id 0 under DRHD base  0xdc100000 IOMMU 1
+[    0.000000] DMAR-IR: IOAPIC id 1 under DRHD base  0xdc100000 IOMMU 1
+</div></code></pre>
+<ul>
+<li>Identify the NICs which will be passed through to the Guest VMs.</li>
+</ul>
+<pre class="hljs"><code><div>sudo lshw -c network -businfo
+Bus info          Device      Class          Description
+========================================================
+pci@0000:01:00.0  eno1        network        Ethernet Controller 10-Gigabit X540-AT2
+pci@0000:01:00.1  eno2        network        Ethernet Controller 10-Gigabit X540-AT2
+pci@0000:08:00.0  eno3        network        I350 Gigabit Network Connection
+pci@0000:08:00.1  eno4        network        I350 Gigabit Network Connection
+                  virbr0      network        Ethernet interface
+</div></code></pre>
+<ul>
+<li>I will utilze eno1 and eno2 as PCI passthrough devices.</li>
+</ul>
+<pre class="hljs"><code><div>virsh nodedev-dumpxml pci_0000_01_00_0
+&lt;device&gt;
+  &lt;name&gt;pci_0000_01_00_0&lt;/name&gt;
+  &lt;path&gt;/sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0&lt;/path&gt;
+  &lt;parent&gt;pci_0000_00_01_0&lt;/parent&gt;
+  &lt;driver&gt;
+    &lt;name&gt;vfio-pci&lt;/name&gt;
+  &lt;/driver&gt;
+  &lt;capability type='pci'&gt;
+    &lt;domain&gt;0&lt;/domain&gt;
+    &lt;bus&gt;1&lt;/bus&gt;
+    &lt;slot&gt;0&lt;/slot&gt;
+    &lt;function&gt;0&lt;/function&gt;
+    &lt;product id='0x1528'&gt;Ethernet Controller 10-Gigabit X540-AT2&lt;/product&gt;
+    &lt;vendor id='0x8086'&gt;Intel Corporation&lt;/vendor&gt;
+    &lt;capability type='virt_functions' maxCount='63'/&gt;
+    &lt;iommuGroup number='25'&gt;
+      &lt;address domain='0x0000' bus='0x01' slot='0x00' function='0x0'/&gt;
+    &lt;/iommuGroup&gt;
+    &lt;numa node='0'/&gt;
+    &lt;pci-express&gt;
+      &lt;link validity='cap' port='0' speed='5' width='8'/&gt;
+      &lt;link validity='sta' speed='5' width='8'/&gt;
+    &lt;/pci-express&gt;
+  &lt;/capability&gt;
+&lt;/device&gt;
+
+virsh nodedev-dumpxml pci_0000_01_00_1
+&lt;device&gt;
+  &lt;name&gt;pci_0000_01_00_1&lt;/name&gt;
+  &lt;path&gt;/sys/devices/pci0000:00/0000:00:01.0/0000:01:00.1&lt;/path&gt;
+  &lt;parent&gt;pci_0000_00_01_0&lt;/parent&gt;
+  &lt;driver&gt;
+    &lt;name&gt;vfio-pci&lt;/name&gt;
+  &lt;/driver&gt;
+  &lt;capability type='pci'&gt;
+    &lt;domain&gt;0&lt;/domain&gt;
+    &lt;bus&gt;1&lt;/bus&gt;
+    &lt;slot&gt;0&lt;/slot&gt;
+    &lt;function&gt;1&lt;/function&gt;
+    &lt;product id='0x1528'&gt;Ethernet Controller 10-Gigabit X540-AT2&lt;/product&gt;
+    &lt;vendor id='0x8086'&gt;Intel Corporation&lt;/vendor&gt;
+    &lt;capability type='virt_functions' maxCount='63'/&gt;
+    &lt;iommuGroup number='26'&gt;
+      &lt;address domain='0x0000' bus='0x01' slot='0x00' function='0x1'/&gt;
+    &lt;/iommuGroup&gt;
+    &lt;numa node='0'/&gt;
+    &lt;pci-express&gt;
+      &lt;link validity='cap' port='0' speed='5' width='8'/&gt;
+      &lt;link validity='sta' speed='5' width='8'/&gt;
+    &lt;/pci-express&gt;
+  &lt;/capability&gt;
+&lt;/device&gt;
+</div></code></pre>
+<ul>
+<li>Detach the selected PCI Devices from Host OS (Bare Metal Server)</li>
+</ul>
+<pre class="hljs"><code><div>virsh nodedev-detach pci_0000_01_00_0
+virsh nodedev-detach pci_0000_01_00_1
+lshw -c network -businfo
+Bus info          Device      Class          Description
+========================================================
+pci@0000:01:00.0              network        Ethernet Controller 10-Gigabit X540-AT2
+pci@0000:01:00.1              network        Ethernet Controller 10-Gigabit X540-AT2
+pci@0000:08:00.0  eno3        network        I350 Gigabit Network Connection
+pci@0000:08:00.1  eno4        network        I350 Gigabit Network Connection
+                  virbr0      network        Ethernet interface
+                  virbr0-nic  network        Ethernet interface
+</div></code></pre>
+<ul>
+<li>Create Guest VMs Defination Files</li>
+</ul>
+<ul>
+<li>Red_k8s_cluster_worker1 VM</li>
+</ul>
+<pre class="hljs"><code><div>node_name=Red_k8s_cluster_worker1
+export LIBGUESTFS_BACKEND=direct
+root_password=root-password
+someuser_password=someuser-password
+cloud_image=/var/lib/libvirt/images/CentOS-7-x86_64-GenericCloud-1811.qcow2
+
+qemu-img create -f qcow2 /var/lib/libvirt/images/${node_name}.qcow2 100G
+
+virt-resize --expand /dev/sda1 ${cloud_image} /var/lib/libvirt/images/${node_name}.qcow2 &amp;&amp; virt-customize  -a /var/lib/libvirt/images/${node_name}.qcow2   --run-command 'xfs_growfs /' --selinux-relabel
+
+virt-customize  -a /var/lib/libvirt/images/${node_name}.qcow2   --run-command 'xfs_growfs /'  --root-password password:${root_password}   --hostname ${node_name}.${nodesuffix}   --run-command 'useradd someuser'   --password someuser:password:${someuser_password}   --run-command 'echo &quot;someuser ALL=(root) NOPASSWD:ALL&quot; | tee -a /etc/sudoers.d/someuser'   --chmod 0440:/etc/sudoers.d/someuser   --run-command 'sed -i &quot;s/PasswordAuthentication no/PasswordAuthentication yes/g&quot; /etc/ssh/sshd_config'   --run-command 'systemctl enable sshd'   --run-command 'yum remove -y cloud-init'   --selinux-relabel
+
+
+
+virt-install --name ${node_name} \
+  --virt-type kvm --memory 8192  --vcpus 8 \
+  --boot hd,menu=on \
+  --disk path=/var/lib/libvirt/images/${node_name}.qcow2,device=disk \
+  --graphics vnc \
+  --cpu host-passthrough \
+  --os-type=Linux \
+  --os-variant=centos7.0 \
+  --host-device=pci_0000_01_00_0 \
+  --console pty,target_type=serial \
+  --dry-run --print-xml &gt; /tmp/${node_name}.xml
+</div></code></pre>
+<ul>
+<li>Blue_k8s_cluster_worker1 VM</li>
+</ul>
+<pre class="hljs"><code><div>node_name=Blue_k8s_cluster_worker1
+export LIBGUESTFS_BACKEND=direct
+root_password=root-password
+someuser_password=someuser-password
+cloud_image=/var/lib/libvirt/images/CentOS-7-x86_64-GenericCloud-1811.qcow2
+
+qemu-img create -f qcow2 /var/lib/libvirt/images/${node_name}.qcow2 100G
+
+virt-resize --expand /dev/sda1 ${cloud_image} /var/lib/libvirt/images/${node_name}.qcow2 &amp;&amp; virt-customize  -a /var/lib/libvirt/images/${node_name}.qcow2   --run-command 'xfs_growfs /' --selinux-relabel
+
+virt-customize  -a /var/lib/libvirt/images/${node_name}.qcow2   --run-command 'xfs_growfs /'  --root-password password:${root_password}   --hostname ${node_name}.${nodesuffix}   --run-command 'useradd someuser'   --password someuser:password:${someuser_password}   --run-command 'echo &quot;someuser ALL=(root) NOPASSWD:ALL&quot; | tee -a /etc/sudoers.d/someuser'   --chmod 0440:/etc/sudoers.d/someuser   --run-command 'sed -i &quot;s/PasswordAuthentication no/PasswordAuthentication yes/g&quot; /etc/ssh/sshd_config'   --run-command 'systemctl enable sshd'   --run-command 'yum remove -y cloud-init'   --selinux-relabel
+
+virt-install --name ${node_name} \
+  --virt-type kvm --memory 8192  --vcpus 8 \
+  --boot hd,menu=on \
+  --disk path=/var/lib/libvirt/images/${node_name}.qcow2,device=disk \
+  --graphics vnc \
+  --cpu host-passthrough \
+  --os-type=Linux \
+  --os-variant=centos7.0 \
+  --host-device=pci_0000_01_00_1 \
+  --console pty,target_type=serial \
+  --dry-run --print-xml &gt; /tmp/${node_name}.xml
+</div></code></pre>
+<ul>
+<li>Edit the Guest VM Defination Files</li>
+</ul>
+<ul>
+<li>Repeat it for both/ all of the guest VMs</li>
+</ul>
+<pre class="hljs"><code><div>vim /tmp/Red_k8s_cluster_worker1.xml
+</div></code></pre>
+<ul>
+<li>Remove following line</li>
+</ul>
+<pre class="hljs"><code><div>&lt;vcpu&gt;8&lt;/vcpu&gt;
+</div></code></pre>
+<ul>
+<li>Add following line</li>
+</ul>
+<pre class="hljs"><code><div> &lt;vcpu placement='static'&gt;8&lt;/vcpu&gt;
+</div></code></pre>
+<ul>
+<li>Add following lines</li>
+</ul>
+<pre class="hljs"><code><div> &lt;iothreads&gt;1&lt;/iothreads&gt;
+ &lt;cputune&gt;
+    &lt;vcpupin vcpu='0' cpuset='4'/&gt;
+    &lt;vcpupin vcpu='1' cpuset='6'/&gt;
+    &lt;vcpupin vcpu='2' cpuset='8'/&gt;
+    &lt;vcpupin vcpu='3' cpuset='10'/&gt;
+    &lt;vcpupin vcpu='4' cpuset='16'/&gt;
+    &lt;vcpupin vcpu='5' cpuset='18'/&gt;
+    &lt;vcpupin vcpu='6' cpuset='20'/&gt;
+    &lt;vcpupin vcpu='7' cpuset='22'/&gt;
+    &lt;emulatorpin cpuset='2,14'/&gt;
+    &lt;iothreadpin iothread='1' cpuset='2,14'/&gt;
+ &lt;/cputune&gt;
+</div></code></pre>
+<ul>
+<li>Remove following lines</li>
+</ul>
+<pre class="hljs"><code><div>  &lt;interface type=&quot;network&quot;&gt;
+      &lt;source network=&quot;default&quot;/&gt;
+      &lt;mac address=&quot;52:54:00:13:c2:8e&quot;/&gt;
+      &lt;model type=&quot;virtio&quot;/&gt;
+  &lt;/interface&gt;
+</div></code></pre>
+<ul>
+<li>Ensure network devices is added as PCI-Pass-through</li>
+</ul>
+<pre class="hljs"><code><div>&lt;hostdev mode=&quot;subsystem&quot; type=&quot;pci&quot; managed=&quot;yes&quot;&gt;
+      &lt;source&gt;
+        &lt;address domain=&quot;0&quot; bus=&quot;1&quot; slot=&quot;0&quot; function=&quot;0&quot;/&gt;
+      &lt;/source&gt;
+ &lt;/hostdev&gt;
+</div></code></pre>
+<ul>
+<li>Define Guest VMs</li>
+</ul>
+<pre class="hljs"><code><div>virsh define /tmp/Red_k8s_cluster_worker1.xml
+virsh define /tmp/Blue_k8s_cluster_worker1.xml
+</div></code></pre>
+<ul>
+<li>Start the Guest VMs</li>
+</ul>
+<pre class="hljs"><code><div>virsh start Red_k8s_cluster_worker1
+virsh start Blue_k8s_cluster_worker1
+</div></code></pre>
+<h2 id="verfication">Verfication</h2>
+<ul>
+<li>Verify the Network Connectivty between Guest VMs and Underlay_Fabric_Switch.</li>
+</ul>
+<ul>
+<li>Underlay_Fabric_Switch ports must be configured with correct VLAN on interfaces connected with (bare metal NICs which are  passed through to the Guest VMs).</li>
+<li>Once correct config will be applied on Guest VM NICs then connectivty towards fabric and other VMs on same subnet should be established.</li>
+</ul>
+<pre class="hljs"><code><div> fabric-switch&gt; show ethernet-switching table | match bc:30:5b:f2:87:52
+  Red_Tenant_Network    bc:30:5b:f2:87:52 Learn          0 ge-0/0/9.0
+
+fabric-switch&gt; show ethernet-switching table interface ge-0/0/8
+Ethernet-switching table: 1 unicast entries
+  VLAN	            MAC address       Type         Age Interfaces
+
+ Blue_Tenant_Network      bc:30:5b:f2:87:50 Learn       4:17 ge-0/0/8.0
+</div></code></pre>
+<ul>
+<li>Verify CPU Allocation</li>
+</ul>
+<ul>
+<li>CPU Allocation Design</li>
+</ul>
+<pre class="hljs"><code><div>Red_k8s_cluster_worker1 VM 
+2,14 (Emultaor threads and IOThreads)
+
+4,16 mapped to Guest VM vCPUs
+6,18
+8,20
+10,22
+
+Blue_k8s_cluster_worker1 VM
+3,15 (Emultaor threads and IOThreads)
+5,17 Mapped to Guest VM vCPUs
+7,19
+9,21
+11,23
+</div></code></pre>
+<ul>
+<li>Output Collected from the Host OS</li>
+</ul>
+<pre class="hljs"><code><div>server1:/tmp# virsh vcpuinfo Red_k8s_cluster_worker1
+VCPU:           0
+CPU:            4
+State:          running
+CPU time:       28.3s
+CPU Affinity:   ----y-------------------
+
+VCPU:           1
+CPU:            6
+State:          running
+CPU time:       24.6s
+CPU Affinity:   ------y-----------------
+
+VCPU:           2
+CPU:            8
+State:          running
+CPU time:       13.9s
+CPU Affinity:   --------y---------------
+
+VCPU:           3
+CPU:            10
+State:          running
+CPU time:       17.8s
+CPU Affinity:   ----------y-------------
+
+VCPU:           4
+CPU:            16
+State:          running
+CPU time:       10.2s
+CPU Affinity:   ----------------y-------
+
+VCPU:           5
+CPU:            18
+State:          running
+CPU time:       9.8s
+CPU Affinity:   ------------------y-----
+
+VCPU:           6
+CPU:            20
+State:          running
+CPU time:       9.4s
+CPU Affinity:   ---------------------y--
+
+VCPU:           7
+CPU:            22
+State:          running
+CPU time:       7.4s
+CPU Affinity:   -----------------------y
+
+
+server1:/tmp# virsh emulatorpin Red_k8s_cluster_worker1
+emulator: CPU Affinity
+----------------------------------
+       *: 2,14
+
+
+server1:~$ virsh vcpuinfo Blue_k8s_cluster_worker1
+VCPU:           0
+CPU:            5
+State:          running
+CPU time:       25.4s
+CPU Affinity:   -----y------------------
+
+VCPU:           1
+CPU:            7
+State:          running
+CPU time:       11.8s
+CPU Affinity:   -------y----------------
+
+VCPU:           2
+CPU:            9
+State:          running
+CPU time:       9.9s
+CPU Affinity:   ---------y--------------
+
+VCPU:           3
+CPU:            11
+State:          running
+CPU time:       15.5s
+CPU Affinity:   -----------y------------
+
+VCPU:           4
+CPU:            17
+State:          running
+CPU time:       18.9s
+CPU Affinity:   -----------------y------
+
+VCPU:           5
+CPU:            19
+State:          running
+CPU time:       8.8s
+CPU Affinity:   -------------------y----
+
+VCPU:           6
+CPU:            21
+State:          running
+CPU time:       9.4s
+CPU Affinity:   ---------------------y--
+
+VCPU:           7
+CPU:            23
+State:          running
+CPU time:       7.4s
+CPU Affinity:   -----------------------y
+
+
+server1:~$ virsh emulatorpin Blue_k8s_cluster_worker1
+
+emulator: CPU Affinity
+----------------------------------
+       *: 3,15
+</div></code></pre>
+<h2 id="seprate-network-for-control-and-data-plane">Seprate Network for Control and Data Plane</h2>
+<p><img src="./images/cnf_bms_infra_slicing_multi_nics.jpg" alt="cnf_bms_infra_slicing_multi_nics"></p>
+<ul>
+<li>In above discussion I have used single network inside K8s worker nodes for Red and Blue cluster.</li>
+<li>If multiple network interfaces are required for each worker node for each K8s cluster, then extend it to the Guest VMs accordingly.</li>
+</ul>
+<h2 id="sriov-vs-pci-passthrough">Sriov Vs PCI-Passthrough</h2>
+<ul>
+<li>SRIOV VFs can  be passed to the Guest VFs instead of PCI Passthrough.</li>
+<li>Upside for using SRIOV VFs is that with fewer physical NICs we can provide direct connetvity to the Guest VM (avoiding virtio drivers).</li>
+<li>Downside of SRIOV VFs is that some of the physical network functionality may not be available over the VFs (e.g. LACP or 802.3 ad bond can't be configured over SRIOV VFs).</li>
+<li>Upside of of PCI pass-through is that full network functionality would be available to Guest VMs NICs (e.g LACP or 802.3ad can be conigured over PCI pass through NICs).</li>
+<li>Downside of PIC pass-through is extra cost for having seprate PCI pass-through NICs for each NUMA node which could sufffice the Guest VM requirments.</li>
+</ul>
+<h2 id="next-step">Next Step</h2>
+<ul>
+<li>I will scale up this infrastrcure to 4 bare metal servers (1 Control host and 3 Worker nodes) to run 2 K8s clusters (Red and Blue)  while running Juniper Networks Cloud Native CN2 as CNI for those K8s Clusters.</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<ul>
+<li>We can run multiple k8s cluster in same infrastruture and Guest VMs (k8s worker nodes) will get bare metal like peformance because of following factors:-
+<ul>
+<li>Avoiding the virtio drivers and Qemu Emulation for CPUs (because of Hostpass-through CPU model) and NIC cards (because of PCI pass-through).</li>
+<li>Having dedicated IOthread cores will offer speedy read/write operations to the disk.</li>
+<li>Dedicated emulator threads will ensure that all qemu related tasks for guest VMs will be handled by those dedicated cores.</li>
+<li>Isolating CPU Cores dedicated for Guest VMs, IOThreads and  Emulator threads from Host OS CPU cores will ensure that the Host OS scheduler is not overlapping with Guest VMs resources.</li>
+</ul>
+</li>
+</ul>
+<h2 id="references">References</h2>
+<ul>
+<li>https://wiki.openstack.org/wiki/LibvirtXMLCPUModel</li>
+<li>https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/sect-manipulating_the_domain_xml-cpu_model_and_topology</li>
+<li>https://www.intel.com/content/www/us/en/docs/programmable/683013/current/processor-affinity-or-cpu-pinning.html</li>
+<li>https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux_openstack_platform/7/html/instances_and_images_guide/ch-cpu_pinning</li>
+</ul>
+
+</body>
+</html>
