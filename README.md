@@ -491,7 +491,7 @@ emulator: CPU Affinity
   - Dedicated emulator threads will ensure that all qemu related tasks for guest VMs will be handled by those dedicated cores. 
   - Isolating CPU Cores dedicated for Guest VMs, IOThreads and  Emulator threads from Host OS CPU cores will ensure that the Host OS scheduler is not overlapping with Guest VMs resources. 
 ## References
-[CPU Model](https://wiki.openstack.org/wiki/LibvirtXMLCPUModel)
-[CPU Model](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/sect-manipulating_the_domain_xml-cpu_model_and_topology)
-[CPU Pinning](https://www.intel.com/content/www/us/en/docs/programmable/683013/current/processor-affinity-or-cpu-pinning.html)
-[CPU Pinning](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux_openstack_platform/7/html/instances_and_images_guide/ch-cpu_pinning)]
+* [CPU Model](https://wiki.openstack.org/wiki/LibvirtXMLCPUModel)
+* [CPU Model](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/sect-manipulating_the_domain_xml-cpu_model_and_topology)
+* [CPU Pinning](https://www.intel.com/content/www/us/en/docs/programmable/683013/current/processor-affinity-or-cpu-pinning.html)
+* [CPU Pinning](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux_openstack_platform/7/html/instances_and_images_guide/ch-cpu_pinning)]
