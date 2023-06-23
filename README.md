@@ -1,4 +1,4 @@
-# Containerize Network Function Over Baremetal Servers and Infrastructure Slicing
+# Containerize Network Function Over BareMetal Servers and Infrastructure Slicing
 
 -   Textbook definition for 5G slicing is that "5G network slicing is a network architecture that enables the multiplexing of virtualized and independent logical networks on the same physical network infrastructure. Each network slice is an isolated end-to-end network tailored to fulfil diverse requirements requested by a particular application."
 
@@ -7,7 +7,7 @@
 -   How network slicing can be achieved in NFVI (Network Function Virtualization Infrastructure).
     -   NFVI slicing is easier to achieve once Containerized Network Function (CNF) PODs are running over the Infrastructure as a Service virtual machines (VMs).
     -   There is strong advocacy from a school of thought that CNF PODs should run on bare metal servers (BMS).
-    -   Running CNF PODs over BMS can solve issues related to performance overhead and networking complexities can also be avoided which are inherited when CNI has to run POD networks inside the IaaS VMs.
+    -   Running CNF PODs over BMS can solve issues related to performance overhead and networking complexities can also be avoided which are inherited when CNI must run POD networks inside the IaaS VMs.
 -   If CNF Pods must be run on BMS then it means one BMS will be used as single k8s worker node which is clearly underutilization of compute resource.
 
 ## Use cases for Running CNF over BMS
@@ -24,7 +24,7 @@
     -   Packet Core Gateway (5G Core User plane)
     -   IMS transport and bearer services (user plane)
     -   DNS services
--   All of above-described use cases requires that CNF Pods should get performance as those are running over BMS, but compute resources should not be underutilized by dedicating the one BMS to a single K8s worker node.
+-   All above-described use cases requires that CNF Pods should get performance as those are running over BMS, but compute resources should not be underutilized by dedicating the one BMS to a single K8s worker node.
     -   Above implies that we need slicing of compute resources while still offering bare metal performance to CNF Pods.
 
 ## Proposed Model - BMS Slicing using Hardware Pass-through technology from Bare Metal to the Guest VMs
@@ -34,7 +34,6 @@
     -   No more under-utilization of compute infrastructure as one BMS is not limited to host one k8s worker node.
     -   Same level of performance as if k8s worker nodes is deployed over BMS or inside Guest VMs which is sliced from BMS.
     -   No networking complexities, which are inherent if k8s worker nodes have to be deployed over IaaS VMs.
--   
 
 ![cnf_bms_infra_slicing](./images/cnf_bms_infra_slicing.jpg)
 
@@ -51,7 +50,7 @@
 ## Implementation Details
 
 -   Most of above-described requirements can be achieved via IaaS (Open stack, but I will not discuss that).
--   I will discuss implementation details for Host OS (Ubunut 18.04) and Guest VMs Running (Centos 18.06).
+-   I will discuss implementation details for Host OS (Ubuntu 18.04) and Guest VMs Running (Centos 18.06).
     -   Identify the NUMA Architecture
 
 ```
@@ -108,7 +107,7 @@ server1:~$ sudo cat $(find /sys/devices/system/cpu -regex ".*cpu[0-9]+/topology/
 -   Guest VM - Red_k8s_cluster_worker1
 
 ```
-2,14 Phyical CPUs mapped to Emultaor threads and IOThreads
+2,14 Physical CPUs mapped to Emulator threads and IOThreads
 
 4,16 Physical CPUs Mapped to Guest VM vCPUs
 6,18
@@ -119,7 +118,7 @@ server1:~$ sudo cat $(find /sys/devices/system/cpu -regex ".*cpu[0-9]+/topology/
 -   Guest VM - Red_k8s_cluster_worker1
 
 ```
-3,15 Phyical CPUs mapped to Emultaor threads and IOThreads
+3,15 Physical CPUs mapped to Emulator threads and IOThreads
 
 5,17 Physical CPUs Mapped to Guest VM vCPUs
 7,19
@@ -234,8 +233,8 @@ pci@0000:08:00.1  eno4        network        I350 Gigabit Network Connection
                   virbr0-nic  network        Ethernet interface
 ```
 
--   Create Guest VMs Definition Files
--   Red_k8s_cluster_worker1 VM
+-   Create Guest VMs definition files.
+-   Red_k8s_cluster_worker1 VM.
 
 ```
 node_name=Red_k8s_cluster_worker1
@@ -306,7 +305,7 @@ vim /tmp/Red_k8s_cluster_worker1.xml
 <vcpu>8</vcpu>
 ```
 
--   Add following line
+-   Add following line.
 
 ```
  <vcpu placement='static'>8</vcpu>
@@ -330,7 +329,7 @@ vim /tmp/Red_k8s_cluster_worker1.xml
  </cputune>
 ```
 
--   Remove following lines
+-   Remove following lines.
 
 ```
   <interface type="network">
@@ -350,14 +349,14 @@ vim /tmp/Red_k8s_cluster_worker1.xml
  </hostdev>
 ```
 
--   Define guest VMs
+-   Define guest VMs.
 
 ```
 virsh define /tmp/Red_k8s_cluster_worker1.xml
 virsh define /tmp/Blue_k8s_cluster_worker1.xml
 ```
 
--   Start the guest VMs
+-   Start the guest VMs.
 
 ```
 virsh start Red_k8s_cluster_worker1
@@ -524,12 +523,12 @@ emulator: CPU Affinity
 -   In above discussion I have used single network inside K8s worker nodes for red and blue cluster.
 -   If multiple network interfaces are required for each worker node for each K8s cluster, then extend it to the Guest VMs accordingly.
 
-## Sriov Vs PCI-Passthrough
+## SRIOV Vs PCI-Passthrough
 
 -   SRIOV VFs can be passed to the Guest VFs instead of PCI Passthrough.
 -   Upside for using SRIOV VFs is that with fewer physical NICs we can provide direct connectivity to the Guest VM (avoiding virtio drivers).
 -   Downside of SRIOV VFs is that some of the physical network functionality may not be available over the VFs (e.g. LACP or 802.3 ad bond can't be configured over SRIOV VFs).
--   Upside of of PCI pass-through is that full network functionality would be available to Guest VMs NICs (e.g LACP or 802.3ad can be configured over PCI pass through NICs).
+-   Upside of PCI pass-through is that full network functionality would be available to Guest VMs NICs (e.g LACP or 802.3ad can be configured over PCI pass through NICs).
 -   Downside of PIC pass-through is extra cost for having separate PCI pass-through NICs for each NUMA node which could suffice the Guest VM requirements.
 
 ## Next Step
@@ -538,10 +537,10 @@ emulator: CPU Affinity
 
 ## Conclusion
 
--   We can run multiple k8s cluster in same infrastructure and Guest VMs (k8s worker nodes) will get bare metal like performance because of following factors:-
+-   We can run multiple k8s cluster in same infrastructure and Guest VMs (k8s worker nodes) will get bare metal like performance because of following factors: -
     -   Avoiding the virtio drivers and Qemu Emulation for CPUs (because of Hostpass-through CPU model) and NIC cards (because of PCI pass-through).
     -   Having dedicated IOthread cores will offer speedy read/write operations to the disk.
-    -   Dedicated emulator threads will ensure that all qemu related tasks for guest VMs will be handled by those dedicated cores.
+    -   Dedicated emulator threads will ensure that all Qemu related tasks for guest VMs will be handled by those dedicated cores.
     -   Isolating CPU Cores dedicated for Guest VMs, IOThreads and Emulator threads from Host OS CPU cores will ensure that the Host OS scheduler is not overlapping with Guest VMs resources.
 
 ## References
